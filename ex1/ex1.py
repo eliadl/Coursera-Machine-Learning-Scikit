@@ -28,7 +28,8 @@ print warm_up_exercise()
 
 
 data = np.loadtxt('ex1data1.txt', delimiter=',')
-X = np.c_[np.ones(data.shape[0]), data[:, :-1]]
+X = np.c_[np.ones(data.shape[0]),
+          data[:, :-1]]
 y = np.c_[data[:, -1]]
 
 plt.scatter(X[:, 1], y, s=30, c='r', marker='x', linewidths=1)
