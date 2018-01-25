@@ -85,8 +85,9 @@ sgd.fit(X[:, 1].reshape(-1, 1), y.ravel())
 plt.plot(xx, sgd.intercept_ + sgd.coef_ * xx, label='Linear regression (Scikit-learn SGD)')
 
 
-def batch_generator(chunk_size, *args):
+def batch_generator(*args, **kwargs):
     total_size = len(args[-1])
+    chunk_size = kwargs.get('chunk_size', total_size)
     while True:
         new_args = shuffle(*args)
         for i in xrange(0, total_size, chunk_size):
@@ -96,7 +97,7 @@ def batch_generator(chunk_size, *args):
 
 # Compare with Scikit-learn Mini-batch SGD
 sgd2 = SGDRegressor(loss="squared_loss", penalty="l2")
-batcher = batch_generator(10, X, y)
+batcher = batch_generator(X, y, chunk_size=10)
 for _ in xrange(1500 * 10):
     Xr, yr = next(batcher)
     sgd2.partial_fit(Xr[:, 1].reshape(-1, 1), yr.ravel())
